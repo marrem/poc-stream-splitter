@@ -10,6 +10,9 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
 import java.util.Arrays;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @SpringBootApplication
 public class StreamSplitterApplication {
@@ -19,10 +22,7 @@ public class StreamSplitterApplication {
     }
 
 
-    @Bean
-    public TaskExecutor taskExecutor() {
-        return new SimpleAsyncTaskExecutor(); // Or use another one of your liking
-    }
+    // TaskExecutor bean heeft spring al in de context gezet.
 
     @Bean
     public CommandLineRunner commandLineRunner(TaskExecutor taskExecutor, Source source) {
@@ -32,5 +32,11 @@ public class StreamSplitterApplication {
         };
 
     }
+
+    @Bean
+    public BlockingQueue<Integer> blockingQueue() {
+        return new LinkedBlockingQueue<>(10);
+    }
+
 
 }
